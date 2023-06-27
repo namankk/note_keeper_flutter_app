@@ -1,8 +1,18 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/data/repository_impl/repository_impl.dart';
+import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/domain/use_cases/show_list_use_case.dart';
+import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_cubit.dart';
+import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_events.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/pages/home_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(
+      create: (context) => HomePageCubit(ShowListUseCase(RepositoryImpl()))..mapEventWithStates(HomePageEvents.onInitializeScreen),
+    )
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'NoteKeeper App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
