@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_cubit.dart';
+import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_events.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_states.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/widgets/common_widgets.dart';
 
@@ -14,7 +15,11 @@ class HomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("NoteKeeper"),
       ),
-      body: BlocBuilder<HomePageCubit,HomePageStates>(builder: (context,state){
+      body: BlocConsumer<HomePageCubit,HomePageStates>(
+        buildWhen: (context,states){
+          return (states is! HomePageShowSnakeBar);
+        },
+          builder: (context,state){
         if(state is HomePageLoadingStates){
           return const Center(
             child: CircularProgressIndicator(),
@@ -36,10 +41,17 @@ class HomePage extends StatelessWidget {
         }else{
           return const Center(child: Text("No State found"));
         }
+
+      }, listener: (context,homePageState){
+        if(homePageState is HomePageShowSnakeBar){
+          print("HomePageShowSnakeBar called ");
+         const snake= SnackBar(content: Text("Value Added"));
+         ScaffoldMessenger.of(context).showSnackBar(snake);
+        }
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-
+          context.read<HomePageCubit>().mapEventWithStates(HomePageEvents.onTileTapped);
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),

@@ -35,3 +35,8 @@ class HomePageSuccessStates extends HomePageStates {
   @override
   List<Object?> get props => [data];
 }
+class HomePageShowSnakeBar extends HomePageStates implements Equatable {
+  @override
+  List<Object?> get props => [];
+}
+
