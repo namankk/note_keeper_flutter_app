@@ -2,7 +2,7 @@ import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/domain
 
 class NoteModel extends NoteEntity {
   const NoteModel(
-      {required super.id,
+      {super.id,
       required super.title,
       required super.priority,
       required super.date,
@@ -17,8 +17,22 @@ class NoteModel extends NoteEntity {
         description: jsonMap["description"]);
   }
 
+  NoteModel copyWith(
+      {int? id,
+      String? title,
+      String? priority,
+      String? date,
+      String? description}) {
+    return NoteModel(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        priority: priority ?? this.priority,
+        date: date ?? this.date,
+        description: description ?? this.description);
+  }
+
   Map<String, dynamic> toJson() => {
-        "id": id,
+        // "id": id,
         "title": title,
         "priority": priority,
         "date": date,

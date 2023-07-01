@@ -5,6 +5,11 @@ import 'package:path/path.dart' as path;
 class DatabaseHelper {
   static const int _version = 1;
   static const String _dbName = "noteKeeper.db";
+  static final DatabaseHelper instance=DatabaseHelper._();
+  factory DatabaseHelper(){
+   return instance;
+  }
+  DatabaseHelper._();
 
   static Future<Database> _getDb() async {
     return openDatabase(path.join(await getDatabasesPath(), _dbName),
