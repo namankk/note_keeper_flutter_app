@@ -4,7 +4,6 @@ import 'package:note_keeper_flutter_app/core/routes/routes.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/data/datasources/local_data_source/local_data_source.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/data/repository_impl/repository_impl.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/domain/use_cases/show_list_use_case.dart';
-import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/add_note_page_cubit/add_note_page_cubit.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/drop_down_cubit/drop_down_cubit.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_cubit/home_page_cubit.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_cubit/home_page_events.dart';
@@ -18,7 +17,7 @@ void main() {
             ..mapEventWithStates(HomePageEvents.onInitializeScreen),
     ),
     BlocProvider(create: (context) => NoteDetailPageCubit()),
-    BlocProvider(create: (context) => AddNotePageCubit()),
+    // BlocProvider(create: (context) => AddNotePageCubit()),
     BlocProvider(create: (context) => DropDownCubit()),
   ], child: const MyApp()));
 }

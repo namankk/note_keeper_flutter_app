@@ -6,4 +6,5 @@ import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/domain
 abstract class RepositoryBase{
   Future<Either<ErrorCore,List<NoteEntity>>> getListOfNote();
   Future<Either<ErrorCore,SuccessCore>> updateEntity(NoteEntity noteEntity);
+  Future<Either<ErrorCore,SuccessCore>> deleteEntity(int id);
 }

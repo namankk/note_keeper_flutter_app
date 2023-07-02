@@ -6,8 +6,8 @@ abstract class DropDownStatesBase {
 
   // List of items in our dropdown menu
   List<DropDownEntity> items = [
-    DropDownEntity(key: "0", value: "High"),
-    DropDownEntity(key: "1", value: "Low"),
+    DropDownEntity(key: "0", value: "Low"),
+    DropDownEntity(key: "1", value: "High"),
   ];
 }
 

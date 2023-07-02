@@ -8,7 +8,7 @@ import '../../../../../core/helper/database_helper.dart';
 class AddNotePageCubit extends Cubit<AddNotePageStates> {
   AddNotePageCubit() : super(AddNotePageInitialState());
 
-  void mapEventsWithStates(AddNotePageEvent event) {
+  void mapEventsWithStates(AddNotePageEvent event,{NoteModel? noteModel}) {
     switch (event) {
       case AddNotePageEvent.onInitialScreenEvent:
         emit(AddNotePageInitialState());
@@ -20,6 +20,7 @@ class AddNotePageCubit extends Cubit<AddNotePageStates> {
         emit(AddNotePageErrorState("Something went wrong"));
         break;
       case AddNotePageEvent.onSaveButtonScreenEvent:
+        addNote(noteModel!);
         break;
       case AddNotePageEvent.onCloseButtonScreenEvent:
         emit(AddNotePageCloseButtonTappedState());

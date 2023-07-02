@@ -10,10 +10,9 @@ class HomePageCubit extends Cubit<HomePageStates> {
 
   HomePageCubit(this._showListUseCase) : super(HomePageLoadingStates());
 
-  mapEventWithStates(String homePageEvents) async {
+  mapEventWithStates(HomePageEvents homePageEvents,{int? id}) async {
     switch (homePageEvents) {
       case HomePageEvents.onInitializeScreen:
-        // await DatabaseHelper.getAllNotes();
         final value = await _showListUseCase.showListOfNotes();
         value.fold((l) => emit(HomePageErrorStates(l.errorTitle)), (r) {
           if (r.isNotEmpty) {
@@ -24,12 +23,18 @@ class HomePageCubit extends Cubit<HomePageStates> {
         });
         break;
       case HomePageEvents.onTileTapped:
-        // await DatabaseHelper.addNote(NoteModel(title: "title", priority: "priority", date: "date", description: "description"));
-
         emit(HomePageShowSnakeBar());
         break;
       case HomePageEvents.onDeleteTapped:
-        emit(state);
+        await _showListUseCase.deleteElements(id!);
+        final value = await _showListUseCase.showListOfNotes();
+        value.fold((l) => emit(HomePageErrorStates(l.errorTitle)), (r) {
+          if (r.isNotEmpty) {
+            emit(HomePageSuccessStates(r));
+          } else {
+            emit(HomePageEmptyStates("List is Empty"));
+          }
+        });
         break;
     }
   }

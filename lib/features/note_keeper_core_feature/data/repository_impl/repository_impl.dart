@@ -21,4 +21,9 @@ class RepositoryImpl implements RepositoryBase{
     throw UnimplementedError();
   }
 
+  @override
+  Future<Either<ErrorCore, SuccessCore>> deleteEntity(int id) async{
+    return await _localDataSourceBase.deleteNote(id);
+  }
+
 }

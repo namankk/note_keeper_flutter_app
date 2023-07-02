@@ -10,7 +10,10 @@ Widget noteTileWidget(NoteEntity noteEntity){
           shape: BoxShape.circle,
         ),child: Text(noteEntity.priority),),
         Expanded(child: Text("${noteEntity.title}")),
-        const Icon(Icons.delete),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: const Icon(Icons.delete),
+        ),
       ],
     ),
   );

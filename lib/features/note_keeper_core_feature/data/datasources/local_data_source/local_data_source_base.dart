@@ -6,4 +6,5 @@ import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/data/m
 abstract class LocalDataSourceBase{
   Future<Either<ErrorCore,List<NoteModel>>> getAllNotes();
   Future<Either<ErrorCore,SuccessCore>> addNote();
+  Future<Either<ErrorCore,SuccessCore>> deleteNote(int id);
 }
