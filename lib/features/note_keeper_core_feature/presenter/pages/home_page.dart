@@ -20,10 +20,31 @@ class HomePage extends StatelessWidget {
             .mapEventWithStates(HomePageEvents.onInitializeScreen);
       },
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text("NoteKeeper"),
-        ),
+        appBar: PreferredSize(child: Container(
+           color : Colors.pink.shade400,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              // color : Color.fromRGBO(64, 18, 139, 1),
+              // gradient : LinearGradient(
+              //     begin: Alignment(6.123234262925839e-17,1),
+              //     end: Alignment(-1,6.123234262925839e-17),
+              //     colors: [Color.fromRGBO(221, 88, 214, 1),Color.fromRGBO(221, 88, 214, 0)]
+              // ),
+              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(80.0)),
+            ),
+            padding: EdgeInsets.only(left: 30,bottom: 40,top: 50),
+            child: Row(
+              children: [
+                CircleAvatar(child: Icon(Icons.accessibility_sharp),),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text("NoteKeeper",style: TextStyle(color: Colors.black,fontSize: 22.0,fontWeight: FontWeight.bold),),
+                ),
+              ],
+            ),
+          ),
+        ), preferredSize: Size(100,150)),
         body: BlocConsumer<HomePageCubit, HomePageStates>(
             buildWhen: (old, states) {
           return (states is! HomePageShowSnakeBar);
@@ -41,33 +62,40 @@ class HomePage extends StatelessWidget {
               child: Text("Error Something went wrong"),
             );
           } else if (state is HomePageSuccessStates) {
-            return ListView.separated(
+            return ListView.builder(
                 itemBuilder: (context, index) {
                   final noteEntity=state.data[index];
-                  return  Card(
-                    child: Row(
-                      children: [
-                        Container(decoration: const BoxDecoration(
-                          color: Colors.green,
-                          shape: BoxShape.circle,
-                        ),child: Text(noteEntity.priority),),
-                        Expanded(child: Text("${noteEntity.title}")),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: IconButton(onPressed: () {
-                            context.read<HomePageCubit>().mapEventWithStates(HomePageEvents.onDeleteTapped,id: noteEntity.id);
-                          },
-                          icon: const Icon(Icons.delete)),
-                        ),
-                      ],
+                  return  Container(
+                    color: index.isOdd?Colors.pink.shade400:Colors.purple.shade800,
+                    child: Container(
+                     decoration: BoxDecoration(
+                       color: index.isOdd?Colors.purple.shade800:Colors.pink.shade400,
+                           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(80.0)),
+                     ),
+                      padding: EdgeInsets.only(left: 30,bottom: 70,top: 40),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Container(decoration:  BoxDecoration(
+                          //   borderRadius: BorderRadius.circular(20.0),
+                          //   border: Border.all(color: noteEntity.priority=="0"?Theme.of(context).primaryColorLight:Theme.of(context).primaryColor),
+                          //   color: noteEntity.priority=="0"?Theme.of(context).primaryColorLight:Theme.of(context).primaryColor,
+                          // ),child: Text(noteEntity.priority=="0"?"L":"H"),),
+                          Text(noteEntity.date,style: TextStyle(color: Colors.white,fontSize: 12.0),),
+                          Text(noteEntity.title,style: TextStyle(color: Colors.white,fontSize: 22.0),),
+                          // Padding(
+                          //   padding: const EdgeInsets.all(8.0),
+                          //   child: IconButton(onPressed: () {
+                          //     context.read<HomePageCubit>().mapEventWithStates(HomePageEvents.onDeleteTapped,id: noteEntity.id);
+                          //   },
+                          //   icon: const Icon(Icons.delete)),
+                          // ),
+                        ],
+                      ),
                     ),
                   );
                 },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    height: 20.0,
-                  );
-                },
+
                 itemCount: state.data.length);
           } else {
             return const Center(child: Text("No State found"));
