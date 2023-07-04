@@ -9,6 +9,7 @@ class NoteModel extends NoteEntity {
       required super.description});
 
   factory NoteModel.fromJson(Map<String, dynamic> jsonMap) {
+
     return NoteModel(
         id: jsonMap["id"],
         title: jsonMap["title"],

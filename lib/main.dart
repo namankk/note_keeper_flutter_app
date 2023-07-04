@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'NoteKeeper App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple,brightness: Brightness.light),
         useMaterial3: true,
       ),
       routerConfig: goRoute,

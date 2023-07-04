@@ -1,9 +1,11 @@
 import 'package:dartz/dartz.dart';
-import 'package:note_keeper_flutter_app/core/ErrorCore.dart';
-import 'package:note_keeper_flutter_app/core/SuccessCore.dart';
+import 'package:note_keeper_flutter_app/core/core_models/error_core.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/data/datasources/local_data_source/local_data_source_base.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/domain/entities/note_entity.dart';
-import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/domain/repository/Repository.dart';
+
+import '../../../../../core/core_models/success_core.dart';
+import '../../domain/repositories/repository.dart';
+
 
 class RepositoryImpl implements RepositoryBase{
   final LocalDataSourceBase _localDataSourceBase;

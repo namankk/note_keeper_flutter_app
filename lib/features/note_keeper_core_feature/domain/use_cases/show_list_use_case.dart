@@ -1,11 +1,12 @@
 import 'package:dartz/dartz.dart';
-import 'package:note_keeper_flutter_app/core/ErrorCore.dart';
-import 'package:note_keeper_flutter_app/core/SuccessCore.dart';
+import 'package:note_keeper_flutter_app/core/core_models/error_core.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/domain/entities/note_entity.dart';
-import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/domain/repository/Repository.dart';
+
+import '../../../../../core/core_models/success_core.dart';
+import '../repositories/repository.dart';
 
 class ShowListUseCase {
-  RepositoryBase _repositoryBase;
+  final RepositoryBase _repositoryBase;
 
   ShowListUseCase(this._repositoryBase);
 

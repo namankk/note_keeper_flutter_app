@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_detector/focus_detector.dart';
 import 'package:go_router/go_router.dart';
+import 'package:note_keeper_flutter_app/core/extensions/extension_base.dart';
 import 'package:note_keeper_flutter_app/core/routes/route_names.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_cubit/home_page_cubit.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_cubit/home_page_states.dart';
@@ -20,31 +21,25 @@ class HomePage extends StatelessWidget {
             .mapEventWithStates(HomePageEvents.onInitializeScreen);
       },
       child: Scaffold(
-        appBar: PreferredSize(child: Container(
-           color : Colors.pink.shade400,
+        appBar: PreferredSize(preferredSize: const Size(100,150), child: Container(
+           color : Colors.purple.shade800,
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
-              // color : Color.fromRGBO(64, 18, 139, 1),
-              // gradient : LinearGradient(
-              //     begin: Alignment(6.123234262925839e-17,1),
-              //     end: Alignment(-1,6.123234262925839e-17),
-              //     colors: [Color.fromRGBO(221, 88, 214, 1),Color.fromRGBO(221, 88, 214, 0)]
-              // ),
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(80.0)),
             ),
-            padding: EdgeInsets.only(left: 30,bottom: 40,top: 50),
-            child: Row(
+            padding: const EdgeInsets.only(left: 30,bottom: 40,top: 50),
+            child: const Row(
               children: [
                 CircleAvatar(child: Icon(Icons.accessibility_sharp),),
                 Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
+                  padding: EdgeInsets.only(left: 10.0),
                   child: Text("NoteKeeper",style: TextStyle(color: Colors.black,fontSize: 22.0,fontWeight: FontWeight.bold),),
                 ),
               ],
             ),
           ),
-        ), preferredSize: Size(100,150)),
+        )),
         body: BlocConsumer<HomePageCubit, HomePageStates>(
             buildWhen: (old, states) {
           return (states is! HomePageShowSnakeBar);
@@ -54,8 +49,11 @@ class HomePage extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (state is HomePageEmptyStates) {
-            return const Center(
-              child: Text("No Data to show please add some data"),
+            return  SizedBox.expand(
+              child: Container(color: Colors.purple.shade800,
+                  child: Center(child: Text("No Data to show please add some data",textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.white),))
+              ),
             );
           } else if (state is HomePageErrorStates) {
             return const Center(
@@ -66,30 +64,33 @@ class HomePage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final noteEntity=state.data[index];
                   return  Container(
-                    color: index.isOdd?Colors.pink.shade400:Colors.purple.shade800,
+                    color: index==state.data.length-1?Colors.white:index.isOdd?Colors.purple.shade800:Colors.purple.shade200,
                     child: Container(
                      decoration: BoxDecoration(
-                       color: index.isOdd?Colors.purple.shade800:Colors.pink.shade400,
-                           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(80.0)),
+                       color: index.isOdd?Colors.purple.shade200:Colors.purple.shade800,
+                           borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(80.0)),
                      ),
-                      padding: EdgeInsets.only(left: 30,bottom: 70,top: 40),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      padding: const EdgeInsets.only(left: 30,bottom: 70,top: 40),
+                      child: Stack(
                         children: [
-                          // Container(decoration:  BoxDecoration(
-                          //   borderRadius: BorderRadius.circular(20.0),
-                          //   border: Border.all(color: noteEntity.priority=="0"?Theme.of(context).primaryColorLight:Theme.of(context).primaryColor),
-                          //   color: noteEntity.priority=="0"?Theme.of(context).primaryColorLight:Theme.of(context).primaryColor,
-                          // ),child: Text(noteEntity.priority=="0"?"L":"H"),),
-                          Text(noteEntity.date,style: TextStyle(color: Colors.white,fontSize: 12.0),),
-                          Text(noteEntity.title,style: TextStyle(color: Colors.white,fontSize: 22.0),),
-                          // Padding(
-                          //   padding: const EdgeInsets.all(8.0),
-                          //   child: IconButton(onPressed: () {
-                          //     context.read<HomePageCubit>().mapEventWithStates(HomePageEvents.onDeleteTapped,id: noteEntity.id);
-                          //   },
-                          //   icon: const Icon(Icons.delete)),
-                          // ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("${noteEntity.date.date.getWeekDateName()} ${noteEntity.date.date.day} ${noteEntity.date.date.getMonthName()}",style: const TextStyle(color: Colors.white,fontSize: 12.0),),
+                              Text(noteEntity.title,style: const TextStyle(color: Colors.white,fontSize: 22.0),),
+                              Text("Priority ${noteEntity.priority=="1"?"High":"Low"}",style: const TextStyle(color: Colors.white,fontSize: 22.0),),
+                            ],
+                          ),
+                          Positioned(right: 20,bottom: 0,child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Transform.rotate(
+                              angle: 170,
+                              child: IconButton(color: Colors.white,iconSize: 40,onPressed: () {
+                                context.read<HomePageCubit>().mapEventWithStates(HomePageEvents.onDeleteTapped,id: noteEntity.id);
+                              },
+                                  icon: const Icon(Icons.delete_forever)),
+                            ),
+                          ),)
                         ],
                       ),
                     ),
@@ -108,7 +109,6 @@ class HomePage extends StatelessWidget {
           }
         }, listener: (context, homePageState) {
           if (homePageState is HomePageShowSnakeBar) {
-            print("HomePageShowSnakeBar called ");
             context.goNamed(RouteNames.addNote);
           }
         }),

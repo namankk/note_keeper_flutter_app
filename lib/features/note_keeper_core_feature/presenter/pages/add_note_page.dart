@@ -19,6 +19,7 @@ class AddNotePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text("Add Note")),
+      resizeToAvoidBottomInset: false,
       body: BlocConsumer<AddNotePageCubit, AddNotePageStates>(
           builder: (context, states) {
         if (states is AddNotePageInitialState) {
@@ -76,7 +77,7 @@ class AddNotePage extends StatelessWidget {
                                           title: title,
                                           priority: statesDrop.dropDownvalue,
                                           date: DateTime.now()
-                                              .millisecondsSinceEpoch
+                                              .microsecondsSinceEpoch
                                               .toString(),
                                           description: description));
                             },
