@@ -5,6 +5,9 @@ import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presen
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/pages/add_note_page.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/pages/home_page.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/pages/note_detail_page.dart';
+import 'package:note_keeper_flutter_app/core/service_locator/service_locator.dart'
+    as service_locator;
+
 final goRoute = GoRouter(initialLocation: "/", routes: [
   GoRoute(
       path: "/",
@@ -12,10 +15,12 @@ final goRoute = GoRouter(initialLocation: "/", routes: [
       builder: (context, states) => const HomePage(),
       routes: [
         GoRoute(
-            path: "add_note",
-            name: RouteNames.addNote,
-            builder: (context, states) => BlocProvider(create: (context)=>AddNotePageCubit(),
-            child: const AddNotePage(),)),
+          path: "add_note",
+          name: RouteNames.addNote,
+          builder: (context, states) => BlocProvider(
+              create: (context) => service_locator.sl<AddNotePageCubit>(),
+              child: const AddNotePage()),
+        ),
         GoRoute(
             path: "note_details",
             name: RouteNames.noteDetails,

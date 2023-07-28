@@ -8,9 +8,13 @@ import '../../../../../core/core_models/success_core.dart';
 
 class LocalDataSource extends LocalDataSourceBase {
   @override
-  Future<Either<ErrorCore, SuccessCore>> addNote() {
-    // TODO: implement addNote
-    throw UnimplementedError();
+  Future<Either<ErrorCore, SuccessCore>> addNote(NoteModel noteModel) async {
+    try {
+      await DatabaseHelper.addNote(noteModel);
+      return Right(SuccessCore());
+    } catch (e) {
+      return Left(ErrorCore(errorTitle: "Error in Adding note", errorDescription: e.toString()));
+    }
   }
 
   @override

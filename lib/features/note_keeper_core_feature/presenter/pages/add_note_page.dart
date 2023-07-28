@@ -18,7 +18,21 @@ class AddNotePage extends StatelessWidget {
     String description = "";
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Add Note")),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(Icons.visibility, color: Theme.of(context).primaryColor),
+            color: Colors.purple.shade100,
+            style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        side: BorderSide(
+                            color: Theme.of(context).primaryColor)))),
+            onPressed: () {},
+          )
+        ],
+      ),
       resizeToAvoidBottomInset: false,
       body: BlocConsumer<AddNotePageCubit, AddNotePageStates>(
           builder: (context, states) {
@@ -73,7 +87,7 @@ class AddNotePage extends StatelessWidget {
                                   .read<AddNotePageCubit>()
                                   .mapEventsWithStates(
                                       AddNotePageEvent.onSaveButtonScreenEvent,
-                                      noteModel: NoteModel(
+                                      noteEntity: NoteModel(
                                           title: title,
                                           priority: statesDrop.dropDownvalue,
                                           date: DateTime.now()

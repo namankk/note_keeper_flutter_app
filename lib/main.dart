@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_keeper_flutter_app/core/routes/routes.dart';
-import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/data/datasources/local_data_source/local_data_source.dart';
-import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/data/repository_impl/repository_impl.dart';
-import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/domain/use_cases/show_list_use_case.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/drop_down_cubit/drop_down_cubit.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_cubit/home_page_cubit.dart';
-import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_cubit/home_page_events.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/note_detail_page_cubit/note_detail_page_cubit.dart';
 
+import 'package:note_keeper_flutter_app/core/service_locator/service_locator.dart'
+    as serviceLocator;
+
 void main() {
+  serviceLocator.setUp();
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
-      create: (context) =>
-          HomePageCubit(ShowListUseCase(RepositoryImpl(LocalDataSource())))
-            ..mapEventWithStates(HomePageEvents.onInitializeScreen),
+      create: (context) => serviceLocator.sl<HomePageCubit>(),
     ),
-    BlocProvider(create: (context) => NoteDetailPageCubit()),
-    // BlocProvider(create: (context) => AddNotePageCubit()),
-    BlocProvider(create: (context) => DropDownCubit()),
+    BlocProvider(create: (context) => serviceLocator.sl<NoteDetailPageCubit>()),
+    BlocProvider(create: (context) => serviceLocator.sl<DropDownCubit>()),
   ], child: const MyApp()));
 }
 
@@ -31,7 +28,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'NoteKeeper App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple,brightness: Brightness.light),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.deepPurple, brightness: Brightness.light),
         useMaterial3: true,
       ),
       routerConfig: goRoute,
