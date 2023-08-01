@@ -7,10 +7,14 @@ import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/data/m
 import '../../../../../core/core_models/success_core.dart';
 
 class LocalDataSource extends LocalDataSourceBase {
+  final DatabaseHelper _databaseHelper;
+
+  LocalDataSource(this._databaseHelper);
+
   @override
   Future<Either<ErrorCore, SuccessCore>> addNote(NoteModel noteModel) async {
     try {
-      await DatabaseHelper.addNote(noteModel);
+      await _databaseHelper.addNote(noteModel);
       return Right(SuccessCore());
     } catch (e) {
       return Left(ErrorCore(errorTitle: "Error in Adding note", errorDescription: e.toString()));
@@ -20,7 +24,7 @@ class LocalDataSource extends LocalDataSourceBase {
   @override
   Future<Either<ErrorCore, List<NoteModel>>> getAllNotes() async {
     try {
-      final data = await DatabaseHelper.getAllNotes();
+      final data = await _databaseHelper.getAllNotes();
       List<NoteModel> listOfModel =
           List.from(data).map((e) => NoteModel.fromJson(e)).toList();
       return Right(listOfModel);
@@ -34,7 +38,7 @@ class LocalDataSource extends LocalDataSourceBase {
   @override
   Future<Either<ErrorCore, SuccessCore>> deleteNote(int id) async {
     try {
-      await DatabaseHelper.deleteNote(id);
+      await _databaseHelper.deleteNote(id);
       return Right(SuccessCore());
     } catch (e) {
       return Left(ErrorCore(
