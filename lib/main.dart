@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/pages/home_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:note_keeper_flutter_app/core/routes/routes.dart';
+import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/drop_down_cubit/drop_down_cubit.dart';
+import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_cubit/home_page_cubit.dart';
+import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/note_detail_page_cubit/note_detail_page_cubit.dart';
+
+import 'package:note_keeper_flutter_app/core/service_locator/service_locator.dart'
+    as serviceLocator;
 
 void main() {
-  runApp(const MyApp());
+  serviceLocator.setUp();
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(
+      create: (context) => serviceLocator.sl<HomePageCubit>(),
+    ),
+    BlocProvider(create: (context) => serviceLocator.sl<NoteDetailPageCubit>()),
+    BlocProvider(create: (context) => serviceLocator.sl<DropDownCubit>()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -11,13 +25,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return MaterialApp.router(
+      title: 'NoteKeeper App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.deepPurple, brightness: Brightness.light),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      routerConfig: goRoute,
     );
   }
 }
