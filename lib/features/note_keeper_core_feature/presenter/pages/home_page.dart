@@ -7,8 +7,6 @@ import 'package:note_keeper_flutter_app/core/routes/route_names.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_cubit/home_page_cubit.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_cubit/home_page_states.dart';
 
-import '../cubits/home_page_cubit/home_page_events.dart';
-
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -18,7 +16,7 @@ class HomePage extends StatelessWidget {
       onFocusGained: () {
         context
             .read<HomePageCubit>()
-            .mapEventWithStates(HomePageEvents.onInitializeScreen);
+            .onInitializeEvent();
       },
       child: Scaffold(
         appBar: PreferredSize(preferredSize: const Size(100,150), child: Container(
@@ -86,7 +84,7 @@ class HomePage extends StatelessWidget {
                             child: Transform.rotate(
                               angle: 170,
                               child: IconButton(color: Colors.white,iconSize: 40,onPressed: () {
-                                context.read<HomePageCubit>().mapEventWithStates(HomePageEvents.onDeleteTapped,id: noteEntity.id);
+                                context.read<HomePageCubit>().onDeleteTappedEvent(noteEntity.id!);
                               },
                                   icon: const Icon(Icons.delete_forever)),
                             ),
@@ -116,7 +114,7 @@ class HomePage extends StatelessWidget {
           onPressed: () {
             context
                 .read<HomePageCubit>()
-                .mapEventWithStates(HomePageEvents.onTileTapped);
+                .onTileTappedEvent();
           },
           tooltip: 'Increment',
           child: const Icon(Icons.add),
