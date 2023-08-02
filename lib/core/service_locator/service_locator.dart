@@ -7,7 +7,6 @@ import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presen
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_cubit/home_page_cubit.dart';
 
 import '../../features/note_keeper_core_feature/presenter/cubits/drop_down_cubit/drop_down_cubit.dart';
-import '../../features/note_keeper_core_feature/presenter/cubits/home_page_cubit/home_page_events.dart';
 import '../../features/note_keeper_core_feature/presenter/cubits/note_detail_page_cubit/note_detail_page_cubit.dart';
 import '../helper/database_helper.dart';
 
@@ -23,5 +22,5 @@ void setUp() {
   sl.registerFactory(() => ShowListUseCase(sl<RepositoryImpl>()));
   sl.registerFactory(() => NoteDetailPageCubit());
   sl.registerFactory(() => HomePageCubit(sl())
-    ..mapEventWithStates(HomePageEvents.onInitializeScreen));
+    ..onInitializeEvent());
 }

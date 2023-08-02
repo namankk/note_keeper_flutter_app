@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_keeper_flutter_app/core/routes/routes.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/data/models/note_model.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/add_note_page_cubit/add_note_page_cubit.dart';
-import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/add_note_page_cubit/add_note_page_events.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/add_note_page_cubit/add_note_page_states.dart';
-import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/drop_down_cubit/DropDownEvents.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/drop_down_cubit/DropDownStates.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/drop_down_cubit/drop_down_cubit.dart';
 
@@ -55,9 +53,7 @@ class AddNotePage extends StatelessWidget {
                                 ))
                             .toList(),
                         onChanged: (s) {
-                          context.read<DropDownCubit>().mapStatesWithEvents(
-                              DropDownEvents.onElementSelected,
-                              params: s);
+                          context.read<DropDownCubit>().onElementSelectedEvents(s);
                         }),
                   ),
                   TitleAndDescriptionWidget(
@@ -85,23 +81,20 @@ class AddNotePage extends StatelessWidget {
                             onPressed: () {
                               context
                                   .read<AddNotePageCubit>()
-                                  .mapEventsWithStates(
-                                      AddNotePageEvent.onSaveButtonScreenEvent,
-                                      noteEntity: NoteModel(
-                                          title: title,
-                                          priority: statesDrop.dropDownvalue,
-                                          date: DateTime.now()
-                                              .microsecondsSinceEpoch
-                                              .toString(),
-                                          description: description));
+                              .addNote(NoteModel(
+                                  title: title,
+                                  priority: statesDrop.dropDownvalue,
+                                  date: DateTime.now()
+                                      .microsecondsSinceEpoch
+                                      .toString(),
+                                  description: description));
                             },
                             child: const Text("Save")),
                         ElevatedButton(
                             onPressed: () {
                               context
                                   .read<AddNotePageCubit>()
-                                  .mapEventsWithStates(AddNotePageEvent
-                                      .onCloseButtonScreenEvent);
+                                  .onCloseButtonEvent();
                             },
                             child: const Text("Cancel"))
                       ],
