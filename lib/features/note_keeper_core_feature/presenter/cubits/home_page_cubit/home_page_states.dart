@@ -22,7 +22,6 @@ class HomePageErrorStates extends HomePageStates {
 
 class HomePageSuccessStates extends HomePageStates {
   final List<NoteEntity> _data;
-
   HomePageSuccessStates(this._data);
 
   List<NoteEntity> get data => _data;

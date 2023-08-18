@@ -28,4 +28,9 @@ class RepositoryImpl implements RepositoryBase{
     return await _localDataSourceBase.deleteNote(id);
   }
 
+  @override
+  Stream<List<NoteEntity>> getListOfNoteStreams() {
+    return _localDataSourceBase.getAllNotesStream();
+  }
+
 }

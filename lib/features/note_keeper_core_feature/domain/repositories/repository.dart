@@ -6,6 +6,7 @@ import '../../../../../core/core_models/success_core.dart';
 
 abstract class RepositoryBase{
   Future<Either<ErrorCore,List<NoteEntity>>> getListOfNote();
+  Stream<List<NoteEntity>> getListOfNoteStreams();
   Future<Either<ErrorCore,SuccessCore>> updateEntity(NoteEntity noteEntity);
   Future<Either<ErrorCore,SuccessCore>> deleteEntity(int id);
 }

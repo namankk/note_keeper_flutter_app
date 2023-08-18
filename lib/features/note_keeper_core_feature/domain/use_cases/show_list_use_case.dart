@@ -14,6 +14,10 @@ class ShowListUseCase {
     return await _repositoryBase.getListOfNote();
   }
 
+  Stream<List<NoteEntity>> showStreamOfNotes(){
+    return _repositoryBase.getListOfNoteStreams();
+  }
+
   Future<Either<ErrorCore, SuccessCore>> deleteElements(int id) async {
     return await _repositoryBase.deleteEntity(id);
   }
