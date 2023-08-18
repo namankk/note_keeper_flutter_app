@@ -17,8 +17,10 @@ class LocalDataSource extends LocalDataSourceBase {
   Future<Either<ErrorCore, SuccessCore>> addNote(NoteModel noteModel) async {
     try {
       await _databaseHelper.addNote(noteModel);
-
-      _streamController.add([..._streamController.value,noteModel]);
+      final data = await _databaseHelper.getAllNotes();
+      List<NoteModel> listOfModel =
+      List.from(data).map((e) => NoteModel.fromJson(e)).toList();
+      _streamController.add(listOfModel);
       return Right(SuccessCore());
     } catch (e) {
       return Left(ErrorCore(errorTitle: "Error in Adding note", errorDescription: e.toString()));
@@ -44,8 +46,13 @@ class LocalDataSource extends LocalDataSourceBase {
   Future<Either<ErrorCore, SuccessCore>> deleteNote(int id) async {
     try {
       await _databaseHelper.deleteNote(id);
-      NoteModel m=_streamController.value.firstWhere((element) => element.id==id);
-      _streamController.value.remove(m);
+      final data = await _databaseHelper.getAllNotes();
+      List<NoteModel> listOfModel =
+      List.from(data).map((e) => NoteModel.fromJson(e)).toList();
+      // if(listOfModel.isEmpty){
+      //   _streamController.
+      // }
+      _streamController.add(listOfModel);
       return Right(SuccessCore());
     } catch (e) {
       return Left(ErrorCore(
