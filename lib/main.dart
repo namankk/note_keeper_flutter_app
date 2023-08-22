@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_keeper_flutter_app/core/routes/routes.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/drop_down_cubit/drop_down_cubit.dart';
-import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_cubit/home_page_cubit.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/note_detail_page_cubit/note_detail_page_cubit.dart';
 
 import 'package:note_keeper_flutter_app/core/service_locator/service_locator.dart'
@@ -11,9 +10,6 @@ import 'package:note_keeper_flutter_app/core/service_locator/service_locator.dar
 void main() {
   serviceLocator.setUp();
   runApp(MultiBlocProvider(providers: [
-    BlocProvider(
-      create: (context) => serviceLocator.sl<HomePageCubit>(),
-    ),
     BlocProvider(create: (context) => serviceLocator.sl<NoteDetailPageCubit>()),
     BlocProvider(create: (context) => serviceLocator.sl<DropDownCubit>()),
   ], child: const MyApp()));
