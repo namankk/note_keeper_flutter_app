@@ -7,7 +7,7 @@ Features List
 * Bloc
 * Service Locator (Get it)
 * GoRouter
-* TDD (Test Driven Development)
+* Test Driven Development
 * Reactive programing
 
 ![Screenshot_1690802466](https://github.com/namankk/note_keeper_flutter_app/assets/42471501/5e113395-7d84-4d70-8b6d-54f70c52ede2)
