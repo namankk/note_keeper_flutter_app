@@ -4,6 +4,8 @@ import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/data/r
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/domain/use_cases/add_note_use_case.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/domain/use_cases/show_list_use_case.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/add_note_page_cubit/add_note_page_cubit.dart';
+import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_bloc/home_page_bloc.dart';
+import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_bloc/home_page_events.dart';
 
 import '../../features/note_keeper_core_feature/presenter/cubits/drop_down_cubit/drop_down_cubit.dart';
 import '../../features/note_keeper_core_feature/presenter/cubits/note_detail_page_cubit/note_detail_page_cubit.dart';
@@ -20,4 +22,5 @@ void setUp() {
   sl.registerFactory(() => DropDownCubit());
   sl.registerFactory(() => ShowListUseCase(sl<RepositoryImpl>()));
   sl.registerFactory(() => NoteDetailPageCubit());
+  sl.registerFactory(() => HomePageBloc(sl<ShowListUseCase>())..add(OnPageInitialized()));
 }
