@@ -6,7 +6,7 @@ A Note keeper App in flutter with clean architecture and local database and stre
 **Features List**
 
 * Clean Architecture
-* Bloc/Cubit
+* Bloc State managment
 * Get it (Service locator)
 * GoRouter
 * Test Driven Development
