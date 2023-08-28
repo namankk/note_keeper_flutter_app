@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "NoteKeeper",
           style: TextStyle(
               color: Colors.black,
@@ -26,15 +26,14 @@ class HomePage extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: AppColor.searchBgColor,
-
             ),
             height: 30,
             width: MediaQuery.sizeOf(context).width,
-            margin: EdgeInsets.only(top: 30.0),
+            margin: const EdgeInsets.only(top: 30.0),
           ),
-          Expanded(child: const ListOfNotesWidget()),
+          const Expanded(child: ListOfNotesWidget()),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -80,7 +79,7 @@ class ListOfNotesWidget extends StatelessWidget {
             ),
           HomePageSuccessStates() => GridView.builder(
               gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,crossAxisSpacing: 10.0,mainAxisSpacing: 10.0),
+                  const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,crossAxisSpacing: 10.0,mainAxisSpacing: 10.0),
               itemBuilder: (context, index) {
                 final noteEntity = state.data[index];
                 return Container(
