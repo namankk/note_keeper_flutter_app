@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:note_keeper_flutter_app/core/extensions/extension_base.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:note_keeper_flutter_app/core/routes/route_names.dart';
-import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/home_page_bloc/home_page_events.dart';
+import 'package:note_keeper_flutter_app/core/utils/app_color.dart';
 
 import '../cubits/home_page_bloc/home_page_bloc.dart';
 import '../cubits/home_page_bloc/home_page_states.dart';
@@ -14,38 +14,29 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: const Size(100, 150),
-          child: Container(
-            color: Colors.purple.shade800,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius:
-                    BorderRadius.only(bottomLeft: Radius.circular(80.0)),
-              ),
-              padding: const EdgeInsets.only(left: 30, bottom: 40, top: 50),
-              child: const Row(
-                children: [
-                  CircleAvatar(
-                    child: Icon(Icons.accessibility_sharp),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      "NoteKeeper",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
+      appBar: AppBar(
+        title: Text(
+          "NoteKeeper",
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: 22.0,
+              fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: AppColor.searchBgColor,
+
             ),
-          )),
-      body:
-          const ListOfNotesWidget(),
+            height: 30,
+            width: MediaQuery.sizeOf(context).width,
+            margin: EdgeInsets.only(top: 30.0),
+          ),
+          Expanded(child: const ListOfNotesWidget()),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.goNamed(RouteNames.addNote);
@@ -65,93 +56,68 @@ class ListOfNotesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomePageBloc, HomePageStates>(builder: (context, state) {
-        return switch (state) {
-    HomePageLoadingStates() => const Center(
-        child: CircularProgressIndicator(),
-      ),
-    HomePageEmptyStates() => SizedBox.expand(
-        child: Container(
-            color: Colors.purple.shade800,
-            child: Center(
-                child: Text(
-              "No Data to show please add some data",
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall
-                  ?.copyWith(color: Colors.white),
-            ))),
-      ),
-    HomePageErrorStates() => const Center(
-        child: Text("Error Something went wrong"),
-      ),
-    HomePageSuccessStates() => ListView.builder(
-        itemBuilder: (context, index) {
-          final noteEntity = state.data[index];
-          return Container(
-            color: index == state.data.length - 1
-                ? Colors.white
-                : index.isOdd
-                    ? Colors.purple.shade800
-                    : Colors.purple.shade200,
-            child: Container(
-              decoration: BoxDecoration(
-                color: index.isOdd
-                    ? Colors.purple.shade200
-                    : Colors.purple.shade800,
-                borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(80.0)),
-              ),
-              padding:
-                  const EdgeInsets.only(left: 30, bottom: 70, top: 40),
-              child: Stack(
-                children: [
-                  Column(
+      return Container(
+        padding: const EdgeInsets.all( 10.0),
+        child: switch (state) {
+          HomePageLoadingStates() => const Center(
+              child: CircularProgressIndicator(),
+            ),
+          HomePageEmptyStates() => SizedBox.expand(
+              child: Container(
+                  color: Colors.purple.shade800,
+                  child: Center(
+                      child: Text(
+                    "No Data to show please add some data",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall
+                        ?.copyWith(color: Colors.white),
+                  ))),
+            ),
+          HomePageErrorStates() => const Center(
+              child: Text("Error Something went wrong"),
+            ),
+          HomePageSuccessStates() => GridView.builder(
+              gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,crossAxisSpacing: 10.0,mainAxisSpacing: 10.0),
+              itemBuilder: (context, index) {
+                final noteEntity = state.data[index];
+                return Container(
+                  decoration:  BoxDecoration(
+                    color: AppColor.boxColor1,
+                    boxShadow: kElevationToShadow[1],
+                    borderRadius: const BorderRadius.all(
+                         Radius.circular(16.0)),
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "${noteEntity.date.date.getWeekDateName()} ${noteEntity.date.date.day} ${noteEntity.date.date.getMonthName()}",
-                        style: const TextStyle(
-                            color: Colors.white, fontSize: 12.0),
-                      ),
+
                       Text(
                         noteEntity.title,
-                        style: const TextStyle(
-                            color: Colors.white, fontSize: 22.0),
+                        style: GoogleFonts.alatsi(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
                       ),
                       Text(
-                        "Priority ${noteEntity.priority == "1" ? "High" : "Low"}",
-                        style: const TextStyle(
-                            color: Colors.white, fontSize: 22.0),
+                        noteEntity.description,
+                        style: GoogleFonts.alatsi(
+                          color: Colors.black,
+                          fontSize: 12,
+                        ),
                       ),
+
                     ],
                   ),
-                  Positioned(
-                    right: 20,
-                    bottom: 0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Transform.rotate(
-                        angle: 170,
-                        child: IconButton(
-                            color: Colors.white,
-                            iconSize: 40,
-                            onPressed: () {
-                              context
-                                  .read<HomePageBloc>()
-                                  .add(OnDeleteButtonTap(noteEntity.id!));
-                            },
-                            icon: const Icon(Icons.delete_forever)),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
+                );
+              },
+              itemCount: state.data.length,
+            )
         },
-        itemCount: state.data.length),
-        };
-      });
+      );
+    });
   }
 }
