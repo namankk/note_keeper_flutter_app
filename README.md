@@ -9,7 +9,7 @@ A Note keeper App in flutter with clean architecture and local database and stre
 * Clean Architecture
 * Bloc State managment
 * Get it (Service locator)
-* GoRouter
+* Go_Router
 * Test Driven Development
   
 
