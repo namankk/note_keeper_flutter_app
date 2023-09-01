@@ -2,7 +2,6 @@
 
 A Note keeper App in flutter with clean architecture and local database and streams to update data.
 
-
 **Features List**
 
 * Clean Architecture
