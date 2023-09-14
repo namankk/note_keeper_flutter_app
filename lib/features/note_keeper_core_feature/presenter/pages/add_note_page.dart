@@ -3,13 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:note_keeper_flutter_app/core/routes/routes.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/data/models/note_model.dart';
+import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/domain/entities/note_entity.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/add_note_page_cubit/add_note_page_cubit.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/add_note_page_cubit/add_note_page_states.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/drop_down_cubit/DropDownStates.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/drop_down_cubit/drop_down_cubit.dart';
 
+import '../widgets/common_widgets.dart';
+
 class AddNotePage extends StatelessWidget {
-  const AddNotePage({Key? key}) : super(key: key);
+  final NoteEntity? noteEntity;
+  const AddNotePage({super.key, this.noteEntity});
 
   @override
   Widget build(BuildContext context) {
@@ -56,13 +60,16 @@ class AddNotePage extends StatelessWidget {
                   validatorDesc: (value) {
                     return "some";
                   },
-                  hintDesc: "Description"),
+                  hintDesc: "Description",
+              noteTitle: noteEntity?.title??"",noteDesc: noteEntity?.description??""),
             );
           }));
         } else if (states is AddNotePageLoadingState) {
-          return const Center(child: CircularProgressIndicator());
+          return const LoadingWidget();
         } else {
-          return const Center(child: Text("Something went wrong"));
+          return const NoResultFoundWidget(
+              imagePath: "lib/core/assets/something.svg",
+              titleText: "Ups!... something went wrong!!");
         }
       }, listenWhen: (oldState, newStates) {
         if (newStates is AddNotePageSaveButtonTappedState) {
@@ -90,6 +97,8 @@ class TitleAndDescriptionWidget extends StatefulWidget {
   final ValidatorDesc _validatorDesc;
   final String _hintTitle;
   final String _hintDesc;
+  final String _noteTitle;
+  final String _noteDesc;
 
   const TitleAndDescriptionWidget(
       {required TextChange titleValue,
@@ -98,6 +107,8 @@ class TitleAndDescriptionWidget extends StatefulWidget {
       required ValidatorDesc validatorDesc,
       required String hintTitle,
       required String hintDesc,
+      required String noteTitle,
+      required String noteDesc,
       Key? key})
       : _titleValue = titleValue,
         _descriptionValue = descriptionValue,
@@ -105,6 +116,8 @@ class TitleAndDescriptionWidget extends StatefulWidget {
         _validatorDesc = validatorDesc,
         _hintTitle = hintTitle,
         _hintDesc = hintDesc,
+        _noteTitle = noteTitle,
+        _noteDesc = noteDesc,
         super(key: key);
 
   @override
@@ -120,6 +133,9 @@ class _TitleAndDescriptionWidgetState extends State<TitleAndDescriptionWidget> {
   @override
   void initState() {
     super.initState();
+    textTitleEditingController.text=widget._noteTitle;
+    textDescriptionEditingController.text=widget._noteDesc;
+
     textTitleEditingController.addListener(() {
       widget._titleValue(textTitleEditingController.text);
     });
