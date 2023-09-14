@@ -20,7 +20,7 @@ class DatabaseHelper {
 
    Future<List<Map<String, dynamic>>> getAllNotes() async {
     final db = await _getDb();
-    final map = await db.query("NoteKeeper");
+    final map = await db.query("NoteKeeper",orderBy: "id DESC");
     print(map);
     return map;
   }

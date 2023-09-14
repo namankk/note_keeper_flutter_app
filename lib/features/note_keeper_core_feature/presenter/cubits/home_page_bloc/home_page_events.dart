@@ -5,6 +5,14 @@ sealed class HomePageEvents {}
 
 class OnPageInitialized extends HomePageEvents {}
 
+class OnSearchChange extends HomePageEvents {
+  final String _searchString;
+
+  get searchString => _searchString;
+
+  OnSearchChange(this._searchString);
+}
+
 class OnAddNoteButtonTap extends HomePageEvents {}
 
 class OnDeleteButtonTap extends HomePageEvents {
