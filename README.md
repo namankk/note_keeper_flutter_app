@@ -12,8 +12,6 @@ A Note keeper App in flutter with clean architecture and local database and stre
 
 
 
-![Uploading Screenshot 2023-09-12 at 10.23.54 AM.png…]()
-
 
 
   
