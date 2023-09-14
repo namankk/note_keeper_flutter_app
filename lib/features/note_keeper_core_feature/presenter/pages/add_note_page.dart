@@ -9,10 +9,10 @@ import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presen
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/drop_down_cubit/DropDownStates.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/drop_down_cubit/drop_down_cubit.dart';
 
-import '../widgets/common_widgets.dart';
 
 class AddNotePage extends StatelessWidget {
   final NoteEntity? noteEntity;
+
   const AddNotePage({super.key, this.noteEntity});
 
   @override
@@ -43,37 +43,29 @@ class AddNotePage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: BlocConsumer<AddNotePageCubit, AddNotePageStates>(
           builder: (context, states) {
-        if (states is AddNotePageInitialState) {
-          return Form(child: BlocBuilder<DropDownCubit, DropDownStatesBase>(
-              builder: (context, statesDrop) {
-            return Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: TitleAndDescriptionWidget(
-                  titleValue: (String titleValue) {
-                    title = titleValue;
-                  },
-                  validatorTitle: (value) {
-                    return "some";
-                  },
-                  hintTitle: "Title",
-                  descriptionValue: (String desc) {
-                    description = desc;
-                  },
-                  validatorDesc: (value) {
-                    return "some";
-                  },
-                  hintDesc: "Description",
-                  noteTitle: noteEntity?.title ?? "",
-                  noteDesc: noteEntity?.description ?? ""),
-            );
-          }));
-        } else if (states is AddNotePageLoadingState) {
-          return const LoadingWidget();
-        } else {
-          return const NoResultFoundWidget(
-              imagePath: "lib/core/assets/something.svg",
-              titleText: "Ups!... something went wrong!!");
-        }
+        return Form(child: BlocBuilder<DropDownCubit, DropDownStatesBase>(
+            builder: (context, statesDrop) {
+          return Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: TitleAndDescriptionWidget(
+                titleValue: (String titleValue) {
+                  title = titleValue;
+                },
+                validatorTitle: (value) {
+                  return "some";
+                },
+                hintTitle: "Title",
+                descriptionValue: (String desc) {
+                  description = desc;
+                },
+                validatorDesc: (value) {
+                  return "some";
+                },
+                hintDesc: "Description",
+                noteTitle: noteEntity?.title ?? "",
+                noteDesc: noteEntity?.description ?? ""),
+          );
+        }));
       }, listenWhen: (oldState, newStates) {
         if (newStates is AddNotePageSaveButtonTappedState) {
           return true;
