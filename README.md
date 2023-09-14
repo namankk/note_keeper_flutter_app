@@ -15,6 +15,7 @@ Welcome to the Multi-Platform Note Keeper App repository, built with Flutter! Th
 - Offline Access
 - Search Functionality
 - Clean Architecture
+- RxDart
 
 
 ## Authors
