@@ -16,4 +16,3 @@ class AddNotePageErrorState extends AddNotePageStates {
 
 class AddNotePageSaveButtonTappedState extends AddNotePageStates {}
 
-class AddNotePageCloseButtonTappedState extends AddNotePageStates {}

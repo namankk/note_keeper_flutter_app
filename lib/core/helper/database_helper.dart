@@ -10,7 +10,7 @@ class DatabaseHelper {
     return openDatabase(path.join(await getDatabasesPath(), _dbName),
         version: _version,
         onCreate: (db, ver) => db.execute(
-            "CREATE TABLE NoteKeeper(id INTEGER PRIMARY KEY, title TEXT NOT NULL, priority TEXT NOT NULL, date TEXT NOT NULL,description TEXT NOT NULL)"));
+            "CREATE TABLE NoteKeeper(id INTEGER PRIMARY KEY, title TEXT NOT NULL, date TEXT NOT NULL, description TEXT NOT NULL)"));
   }
 
    Future<int> addNote(NoteModel noteModel) async {

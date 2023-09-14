@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:note_keeper_flutter_app/core/routes/routes.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/data/models/note_model.dart';
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/presenter/cubits/add_note_page_cubit/add_note_page_cubit.dart';
@@ -19,15 +20,17 @@ class AddNotePage extends StatelessWidget {
       appBar: AppBar(
         actions: [
           IconButton(
-            icon: Icon(Icons.visibility, color: Theme.of(context).primaryColor),
-            color: Colors.purple.shade100,
-            style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                        side: BorderSide(
-                            color: Theme.of(context).primaryColor)))),
-            onPressed: () {},
+            icon: Icon(Icons.save_as, color: Theme.of(context).primaryColor),
+            onPressed: () {
+                              context
+                                  .read<AddNotePageCubit>()
+                              .addNote(NoteModel(
+                                  title: title,
+                                  date: DateTime.now()
+                                      .microsecondsSinceEpoch
+                                      .toString(),
+                                  description: description));
+            },
           )
         ],
       ),
@@ -38,70 +41,22 @@ class AddNotePage extends StatelessWidget {
           return Form(child: BlocBuilder<DropDownCubit, DropDownStatesBase>(
               builder: (context, statesDrop) {
             return Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    child: DropdownButton(
-                        value: statesDrop.dropDownvalue,
-                        items: statesDrop.items
-                            .map((entity) => DropdownMenuItem(
-                                  value: entity.key,
-                                  child: Text(entity.value),
-                                ))
-                            .toList(),
-                        onChanged: (s) {
-                          context.read<DropDownCubit>().onElementSelectedEvents(s);
-                        }),
-                  ),
-                  TitleAndDescriptionWidget(
-                      titleValue: (String titleValue) {
-                        title = titleValue;
-                      },
-                      validatorTitle: (value) {
-                        return "some";
-                      },
-                      hintTitle: "Enter Note Title",
-                      descriptionValue: (String desc) {
-                        description = desc;
-                      },
-                      validatorDesc: (value) {
-                        return "some";
-                      },
-                      hintDesc: "Enter Note Description"),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    child: ButtonBar(
-                      mainAxisSize: MainAxisSize.max,
-                      alignment: MainAxisAlignment.start,
-                      children: [
-                        ElevatedButton(
-                            onPressed: () {
-                              context
-                                  .read<AddNotePageCubit>()
-                              .addNote(NoteModel(
-                                  title: title,
-                                  priority: statesDrop.dropDownvalue,
-                                  date: DateTime.now()
-                                      .microsecondsSinceEpoch
-                                      .toString(),
-                                  description: description));
-                            },
-                            child: const Text("Save")),
-                        ElevatedButton(
-                            onPressed: () {
-                              context
-                                  .read<AddNotePageCubit>()
-                                  .onCloseButtonEvent();
-                            },
-                            child: const Text("Cancel"))
-                      ],
-                    ),
-                  )
-                ],
-              ),
+              padding: const EdgeInsets.all(20.0),
+              child: TitleAndDescriptionWidget(
+                  titleValue: (String titleValue) {
+                    title = titleValue;
+                  },
+                  validatorTitle: (value) {
+                    return "some";
+                  },
+                  hintTitle: "Title",
+                  descriptionValue: (String desc) {
+                    description = desc;
+                  },
+                  validatorDesc: (value) {
+                    return "some";
+                  },
+                  hintDesc: "Description"),
             );
           }));
         } else if (states is AddNotePageLoadingState) {
@@ -110,15 +65,13 @@ class AddNotePage extends StatelessWidget {
           return const Center(child: Text("Something went wrong"));
         }
       }, listenWhen: (oldState, newStates) {
-        if (newStates is AddNotePageSaveButtonTappedState ||
-            newStates is AddNotePageCloseButtonTappedState) {
+        if (newStates is AddNotePageSaveButtonTappedState) {
           return true;
         } else {
           return false;
         }
       }, listener: (context, states) {
-        if (states is AddNotePageSaveButtonTappedState ||
-            states is AddNotePageCloseButtonTappedState) {
+        if (states is AddNotePageSaveButtonTappedState) {
           goRoute.pop();
         }
       }),
@@ -179,16 +132,39 @@ class _TitleAndDescriptionWidgetState extends State<TitleAndDescriptionWidget> {
   Widget build(BuildContext context) {
     return Form(
         child: Column(
+          mainAxisSize: MainAxisSize.max,
       children: [
         TextFormField(
           controller: textTitleEditingController,
+          style: GoogleFonts.notoSans(
+              fontSize: 25,
+          fontWeight: FontWeight.bold),
           validator: widget._validatorTitle,
-          decoration: InputDecoration(hintText: widget._hintTitle),
+            decoration: InputDecoration(
+              hintText: widget._hintTitle,
+              enabledBorder: InputBorder.none,
+              errorBorder: InputBorder.none,
+              border: InputBorder.none,
+              hintStyle: GoogleFonts.notoSans(
+                  fontSize: 30),
+            )
         ),
-        TextFormField(
-          controller: textDescriptionEditingController,
-          validator: widget._validatorDesc,
-          decoration: InputDecoration(hintText: widget._hintDesc),
+        Expanded(
+          child: TextFormField(
+            controller: textDescriptionEditingController,
+            validator: widget._validatorDesc,
+              maxLines: null,
+              expands: true,
+              keyboardType: TextInputType.multiline,
+              decoration: InputDecoration(
+                hintText: widget._hintDesc,
+                enabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                border: InputBorder.none,
+                hintStyle: GoogleFonts.notoSans(
+                    fontSize: 14,),
+              )
+          ),
         ),
       ],
     ));

@@ -8,7 +8,7 @@ Widget noteTileWidget(NoteEntity noteEntity){
         Container(decoration: const BoxDecoration(
           color: Colors.green,
           shape: BoxShape.circle,
-        ),child: Text(noteEntity.priority),),
+        ),child: Text("a"),),
         Expanded(child: Text("${noteEntity.title}")),
         Padding(
           padding: const EdgeInsets.all(8.0),
