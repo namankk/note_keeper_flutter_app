@@ -36,6 +36,13 @@ class NoteModel extends NoteEntity {
         "description": description
       };
 
+  Map<String, dynamic> toJsonWithId() => {
+    "id": id,
+    "title": title,
+    "date": date,
+    "description": description
+  };
+
   Color get color => super.color;
 
   set setColor(Color value) {

@@ -8,6 +8,7 @@ import '../../../../../core/core_models/success_core.dart';
 abstract class LocalDataSourceBase{
   Future<Either<ErrorCore,List<NoteModel>>> getAllNotes();
   Future<Either<ErrorCore,SuccessCore>> addNote(NoteModel noteModel);
+  Future<Either<ErrorCore,SuccessCore>> updateNote(NoteModel noteModel);
   Future<Either<ErrorCore,SuccessCore>> deleteNote(int id);
   Stream<List<NoteModel>> getAllNotesStream();
 }

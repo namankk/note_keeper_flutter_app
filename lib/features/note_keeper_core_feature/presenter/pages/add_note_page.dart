@@ -26,14 +26,16 @@ class AddNotePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.save_as, color: Theme.of(context).primaryColor),
             onPressed: () {
-                              context
-                                  .read<AddNotePageCubit>()
-                              .addNote(NoteModel(
-                                  title: title,
-                                  date: DateTime.now()
-                                      .microsecondsSinceEpoch
-                                      .toString(),
-                                  description: description));
+              if (noteEntity != null) {
+                context.read<AddNotePageCubit>().updateNote(
+                    (noteEntity as NoteModel)
+                        .copyWith(description: description, title: title));
+              } else {
+                context.read<AddNotePageCubit>().addNote(NoteModel(
+                    title: title,
+                    date: DateTime.now().microsecondsSinceEpoch.toString(),
+                    description: description));
+              }
             },
           )
         ],
@@ -61,7 +63,8 @@ class AddNotePage extends StatelessWidget {
                     return "some";
                   },
                   hintDesc: "Description",
-              noteTitle: noteEntity?.title??"",noteDesc: noteEntity?.description??""),
+                  noteTitle: noteEntity?.title ?? "",
+                  noteDesc: noteEntity?.description ?? ""),
             );
           }));
         } else if (states is AddNotePageLoadingState) {
@@ -133,8 +136,6 @@ class _TitleAndDescriptionWidgetState extends State<TitleAndDescriptionWidget> {
   @override
   void initState() {
     super.initState();
-    textTitleEditingController.text=widget._noteTitle;
-    textDescriptionEditingController.text=widget._noteDesc;
 
     textTitleEditingController.addListener(() {
       widget._titleValue(textTitleEditingController.text);
@@ -142,33 +143,33 @@ class _TitleAndDescriptionWidgetState extends State<TitleAndDescriptionWidget> {
     textDescriptionEditingController.addListener(() {
       widget._descriptionValue(textDescriptionEditingController.text);
     });
+
+    textTitleEditingController.text = widget._noteTitle;
+    textDescriptionEditingController.text = widget._noteDesc;
   }
 
   @override
   Widget build(BuildContext context) {
     return Form(
         child: Column(
-          mainAxisSize: MainAxisSize.max,
+      mainAxisSize: MainAxisSize.max,
       children: [
         TextFormField(
-          controller: textTitleEditingController,
-          style: GoogleFonts.notoSans(
-              fontSize: 25,
-          fontWeight: FontWeight.bold),
-          validator: widget._validatorTitle,
+            controller: textTitleEditingController,
+            style:
+                GoogleFonts.notoSans(fontSize: 25, fontWeight: FontWeight.bold),
+            validator: widget._validatorTitle,
             decoration: InputDecoration(
               hintText: widget._hintTitle,
               enabledBorder: InputBorder.none,
               errorBorder: InputBorder.none,
               border: InputBorder.none,
-              hintStyle: GoogleFonts.notoSans(
-                  fontSize: 30),
-            )
-        ),
+              hintStyle: GoogleFonts.notoSans(fontSize: 30),
+            )),
         Expanded(
           child: TextFormField(
-            controller: textDescriptionEditingController,
-            validator: widget._validatorDesc,
+              controller: textDescriptionEditingController,
+              validator: widget._validatorDesc,
               maxLines: null,
               expands: true,
               keyboardType: TextInputType.multiline,
@@ -178,9 +179,9 @@ class _TitleAndDescriptionWidgetState extends State<TitleAndDescriptionWidget> {
                 errorBorder: InputBorder.none,
                 border: InputBorder.none,
                 hintStyle: GoogleFonts.notoSans(
-                    fontSize: 14,),
-              )
-          ),
+                  fontSize: 14,
+                ),
+              )),
         ),
       ],
     ));

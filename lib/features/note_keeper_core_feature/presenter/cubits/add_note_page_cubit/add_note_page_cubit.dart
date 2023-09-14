@@ -13,4 +13,9 @@ class AddNotePageCubit extends Cubit<AddNotePageStates> {
     await _addNoteUseCase.saveNote(noteEntity);
     emit(AddNotePageSaveButtonTappedState());
   }
+
+  void updateNote(NoteEntity noteEntity) async {
+    await _addNoteUseCase.updateNote(noteEntity);
+    emit(AddNotePageSaveButtonTappedState());
+  }
 }

@@ -29,4 +29,9 @@ class DatabaseHelper {
     final db = await _getDb();
     return await db.delete("NoteKeeper", where: "id =?", whereArgs: [id]);
   }
+
+  Future<int> updateNote(NoteModel noteModel) async {
+    final db = await _getDb();
+    return await db.update("NoteKeeper",noteModel.toJsonWithId(),where: "id =?", whereArgs: [noteModel.id]);
+  }
 }

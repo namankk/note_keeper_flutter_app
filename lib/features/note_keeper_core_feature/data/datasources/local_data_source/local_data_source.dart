@@ -54,9 +54,6 @@ class LocalDataSource extends LocalDataSourceBase {
       final data = await _databaseHelper.getAllNotes();
       List<NoteModel> listOfModel =
           List.from(data).map((e) => NoteModel.fromJson(e)).toList();
-      // if(listOfModel.isEmpty){
-      //   _streamController.
-      // }
       _streamController.add(listOfModel);
       return Right(SuccessCore());
     } catch (e) {
@@ -85,5 +82,20 @@ class LocalDataSource extends LocalDataSourceBase {
         return value;
       }).toList();
     });
+  }
+
+  @override
+  Future<Either<ErrorCore, SuccessCore>> updateNote(NoteModel noteModel) async{
+    try {
+      await _databaseHelper.updateNote(noteModel);
+      final data = await _databaseHelper.getAllNotes();
+      List<NoteModel> listOfModel =
+      List.from(data).map((e) => NoteModel.fromJson(e)).toList();
+      _streamController.add(listOfModel);
+      return Right(SuccessCore());
+    } catch (e) {
+      return Left(ErrorCore(
+          errorTitle: "Something went wrong", errorDescription: e.toString()));
+    }
   }
 }

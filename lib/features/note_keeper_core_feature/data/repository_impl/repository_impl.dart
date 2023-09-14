@@ -19,7 +19,7 @@ class RepositoryImpl implements RepositoryBase{
   }
 
   @override
-  Future<Either<ErrorCore, SuccessCore>> updateEntity(NoteEntity noteEntity) async{
+  Future<Either<ErrorCore, SuccessCore>> addEntity(NoteEntity noteEntity) async{
     return await _localDataSourceBase.addNote(noteEntity as NoteModel);
   }
 
@@ -31,6 +31,11 @@ class RepositoryImpl implements RepositoryBase{
   @override
   Stream<List<NoteEntity>> getListOfNoteStreams() {
     return _localDataSourceBase.getAllNotesStream();
+  }
+
+  @override
+  Future<Either<ErrorCore, SuccessCore>> updateEntity(NoteEntity noteEntity) async{
+    return await _localDataSourceBase.updateNote(noteEntity as NoteModel);
   }
 
 }
