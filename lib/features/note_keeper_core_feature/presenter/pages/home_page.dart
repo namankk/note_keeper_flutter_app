@@ -93,26 +93,22 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomePageBloc, HomePageStates>(builder: (context, state) {
-      return Container(
-        padding: const EdgeInsets.all(10.0),
-        child: switch (state) {
-          HomePageLoadingStates() => const LoadingWidget(),
-          HomePageEmptyStates() => const EmptyWidget(),
-          HomePageEmptyFilterStates() => const NoResultFoundWidget(
-              imagePath: "lib/core/assets/filter.svg",
-              titleText: "Ups!... no results found",
-              descText: "Please try another search"),
-          HomePageErrorStates() => const NoResultFoundWidget(
-              imagePath: "lib/core/assets/something.svg",
-              titleText: "Ups!... something went wrong!!"),
-          HomePageSuccessStates() => GridViewOfNotesWidget(newData: state.data)
-        },
-      );
-    });
+    return BlocBuilder<HomePageBloc, HomePageStates>(
+        builder: (context, state) => switch (state) {
+              HomePageLoadingStates() => const LoadingWidget(),
+              HomePageEmptyStates() => const EmptyWidget(),
+              HomePageEmptyFilterStates() => const NoResultFoundWidget(
+                  imagePath: "lib/core/assets/filter.svg",
+                  titleText: "Ups!... no results found",
+                  descText: "Please try another search"),
+              HomePageErrorStates() => const NoResultFoundWidget(
+                  imagePath: "lib/core/assets/something.svg",
+                  titleText: "Ups!... something went wrong!!"),
+              HomePageSuccessStates() =>
+                GridViewOfNotesWidget(newData: state.data)
+            });
   }
 }
-
 
 class EmptyWidget extends StatelessWidget {
   const EmptyWidget({
@@ -140,13 +136,14 @@ class GridViewOfNotesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 10.0),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, crossAxisSpacing: 10.0, mainAxisSpacing: 10.0),
       itemBuilder: (context, index) {
         final noteEntity = newData[index];
         return InkWell(
-          onTap: (){
-            context.goNamed(RouteNames.addNote,extra: noteEntity);
+          onTap: () {
+            context.goNamed(RouteNames.addNote, extra: noteEntity);
           },
           child: Container(
             decoration: BoxDecoration(
@@ -156,15 +153,13 @@ class GridViewOfNotesWidget extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(10.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Flexible(
-                  child: Text(
-                    noteEntity.title,
-                    style: GoogleFonts.margarine(
-                      color: Colors.black,
-                      fontSize: 14,
-                    ),
+                Text(
+                  noteEntity.title,
+                  style: GoogleFonts.margarine(
+                    color: Colors.black,
+                    fontSize: 14,
                   ),
                 ),
                 Expanded(
@@ -174,7 +169,6 @@ class GridViewOfNotesWidget extends StatelessWidget {
                       color: Colors.black,
                       fontSize: 12,
                     ),
-                    softWrap: true,
                   ),
                 ),
               ],
@@ -186,4 +180,3 @@ class GridViewOfNotesWidget extends StatelessWidget {
     );
   }
 }
-
