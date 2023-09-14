@@ -1,7 +1,9 @@
+import 'dart:ui';
+
 import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/domain/entities/note_entity.dart';
 
 class NoteModel extends NoteEntity {
-  const NoteModel(
+  NoteModel(
       {super.id,
       required super.title,
       required super.priority,
@@ -9,7 +11,6 @@ class NoteModel extends NoteEntity {
       required super.description});
 
   factory NoteModel.fromJson(Map<String, dynamic> jsonMap) {
-
     return NoteModel(
         id: jsonMap["id"],
         title: jsonMap["title"],
@@ -33,10 +34,15 @@ class NoteModel extends NoteEntity {
   }
 
   Map<String, dynamic> toJson() => {
-        // "id": id,
         "title": title,
         "priority": priority,
         "date": date,
         "description": description
       };
+
+  Color get color => super.color;
+
+  set setColor(Color value) {
+    super.setColor = value;
+  }
 }

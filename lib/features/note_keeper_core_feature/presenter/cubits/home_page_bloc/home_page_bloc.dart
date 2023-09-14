@@ -11,12 +11,34 @@ class HomePageBloc extends Bloc<HomePageEvents, HomePageStates> {
       emit(HomePageLoadingStates());
       await _showListUseCase.showListOfNotes();
       await emit.forEach(_showListUseCase.showStreamOfNotes(),
-          onData: (data) => data.isEmpty?HomePageEmptyStates():HomePageSuccessStates(data),
+          onData: (data) => data.isEmpty
+              ? HomePageEmptyStates()
+              : HomePageSuccessStates(data),
           onError: (_, a) => HomePageErrorStates());
     });
     on<OnDeleteButtonTap>((event, emit) async {
       final response = await _showListUseCase.deleteElements(event.id);
-      response.fold((l) => emit(HomePageErrorStates()), (r) {});
+      response.fold((l) => emit(HomePageEmptyFilterStates()), (r) {});
+    });
+    on<OnSearchChange>((event, emit) async {
+      await emit.forEach(_showListUseCase.showStreamOfNotes(),
+          onData: (data) {
+            if (data.isEmpty) {
+              return HomePageEmptyStates();
+            }
+            var newData = data
+                .where((element) =>
+                    element.title.toLowerCase().contains(
+                        event.searchString.toString().toLowerCase()) ||
+                    element.description
+                        .toLowerCase()
+                        .contains(event.searchString.toString().toLowerCase()))
+                .toList();
+            return newData.isEmpty
+                ? HomePageEmptyFilterStates()
+                : HomePageSuccessStates(newData);
+          },
+          onError: (_, a) => HomePageErrorStates());
     });
   }
 }

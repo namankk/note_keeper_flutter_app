@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:equatable/equatable.dart';
 
 class NoteEntity extends Equatable {
@@ -6,22 +8,24 @@ class NoteEntity extends Equatable {
   final String _priority;
   final String _date;
   final String _description;
+  Color? _color;
 
-  const NoteEntity(
+  NoteEntity(
       {required int? id,
-        required String title,
+      required String title,
       required String priority,
       required String date,
-      required String description})
+      required String description,
+      Color? color})
       : _title = title,
-          _id=id,
-        _date=date,
+        _id = id,
+        _date = date,
         _priority = priority,
-        _description = description;
-
+        _description = description,
+        _color = null;
 
   @override
-  List<Object?> get props => [_title, _description, _priority,_date,_id];
+  List<Object?> get props => [_title, _description, _priority, _date, _id];
 
   String get title => _title;
 
@@ -33,5 +37,9 @@ class NoteEntity extends Equatable {
 
   int? get id => _id;
 
+  Color get color => _color!;
 
+  set setColor(Color value) {
+    _color = value;
+  }
 }
