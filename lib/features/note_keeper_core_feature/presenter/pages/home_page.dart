@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:note_keeper_flutter_app/core/routes/route_names.dart';
@@ -10,6 +9,7 @@ import 'package:note_keeper_flutter_app/features/note_keeper_core_feature/domain
 import '../cubits/home_page_bloc/home_page_bloc.dart';
 import '../cubits/home_page_bloc/home_page_events.dart';
 import '../cubits/home_page_bloc/home_page_states.dart';
+import '../widgets/common_widgets.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -93,36 +93,20 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomePageBloc, HomePageStates>(builder: (context, state) {
-      return Container(
-        padding: const EdgeInsets.all(10.0),
-        child: switch (state) {
-          HomePageLoadingStates() => const LoadingWidget(),
-          HomePageEmptyStates() => const EmptyWidget(),
-          HomePageEmptyFilterStates() => const NoResultFoundWidget(
-              imagePath: "lib/core/assets/filter.svg",
-              titleText: "Ups!... no results found",
-              descText: "Please try another search"),
-          HomePageErrorStates() => const NoResultFoundWidget(
-              imagePath: "lib/core/assets/something.svg",
-              titleText: "Ups!... something went wrong!!"),
-          HomePageSuccessStates() => GridViewOfNotesWidget(newData: state.data)
-        },
-      );
-    });
-  }
-}
-
-class LoadingWidget extends StatelessWidget {
-  const LoadingWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
+    return BlocBuilder<HomePageBloc, HomePageStates>(
+        builder: (context, state) => switch (state) {
+              HomePageLoadingStates() => const LoadingWidget(),
+              HomePageEmptyStates() => const EmptyWidget(),
+              HomePageEmptyFilterStates() => const NoResultFoundWidget(
+                  imagePath: "lib/core/assets/filter.svg",
+                  titleText: "Ups!... no results found",
+                  descText: "Please try another search"),
+              HomePageErrorStates() => const NoResultFoundWidget(
+                  imagePath: "lib/core/assets/something.svg",
+                  titleText: "Ups!... something went wrong!!"),
+              HomePageSuccessStates() =>
+                GridViewOfNotesWidget(newData: state.data)
+            });
   }
 }
 
@@ -152,95 +136,47 @@ class GridViewOfNotesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 10.0),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, crossAxisSpacing: 10.0, mainAxisSpacing: 10.0),
       itemBuilder: (context, index) {
         final noteEntity = newData[index];
-        return Container(
-          decoration: BoxDecoration(
-            color: noteEntity.color,
-            boxShadow: kElevationToShadow[1],
-            borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-          ),
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Flexible(
-                child: Text(
+        return InkWell(
+          onTap: () {
+            context.goNamed(RouteNames.addNote, extra: noteEntity);
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: noteEntity.color,
+              boxShadow: kElevationToShadow[1],
+              borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+            ),
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
                   noteEntity.title,
                   style: GoogleFonts.margarine(
                     color: Colors.black,
                     fontSize: 14,
                   ),
                 ),
-              ),
-              Expanded(
-                child: Text(
-                  noteEntity.description,
-                  style: GoogleFonts.manrope(
-                    color: Colors.black,
-                    fontSize: 12,
+                Expanded(
+                  child: Text(
+                    noteEntity.description,
+                    style: GoogleFonts.manrope(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
                   ),
-                  softWrap: true,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
       itemCount: newData.length,
-    );
-  }
-}
-
-class NoResultFoundWidget extends StatelessWidget {
-  final String _imagePath;
-  final String _titleText;
-  final String _descText;
-
-  const NoResultFoundWidget({
-    required String imagePath,
-    required String titleText,
-    String descText = "",
-  })  : _imagePath = imagePath,
-        _titleText = titleText,
-        _descText = descText;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SvgPicture.asset(_imagePath),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Center(
-              child: Text(
-                _titleText,
-                style: GoogleFonts.margarine(
-                  color: Colors.black,
-                  fontSize: 25,
-                ),
-              ),
-            ),
-            if (_descText.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: Center(
-                  child: Text(
-                    _descText,
-                    style: GoogleFonts.manrope(
-                      color: Colors.black,
-                      fontSize: 15,
-                    ),
-                    softWrap: true,
-                  ),
-                ),
-              ),
-          ],
-        )
-      ],
     );
   }
 }

@@ -10,7 +10,7 @@ class DatabaseHelper {
     return openDatabase(path.join(await getDatabasesPath(), _dbName),
         version: _version,
         onCreate: (db, ver) => db.execute(
-            "CREATE TABLE NoteKeeper(id INTEGER PRIMARY KEY, title TEXT NOT NULL, priority TEXT NOT NULL, date TEXT NOT NULL,description TEXT NOT NULL)"));
+            "CREATE TABLE NoteKeeper(id INTEGER PRIMARY KEY, title TEXT NOT NULL, date TEXT NOT NULL, description TEXT NOT NULL)"));
   }
 
    Future<int> addNote(NoteModel noteModel) async {
@@ -28,5 +28,10 @@ class DatabaseHelper {
    Future<int> deleteNote(int id) async {
     final db = await _getDb();
     return await db.delete("NoteKeeper", where: "id =?", whereArgs: [id]);
+  }
+
+  Future<int> updateNote(NoteModel noteModel) async {
+    final db = await _getDb();
+    return await db.update("NoteKeeper",noteModel.toJsonWithId(),where: "id =?", whereArgs: [noteModel.id]);
   }
 }

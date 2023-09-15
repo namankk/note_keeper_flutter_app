@@ -10,6 +10,11 @@ class AddNoteUseCase {
   AddNoteUseCase(this._repositoryBase);
 
   Future<Either<ErrorCore, SuccessCore>> saveNote(NoteEntity noteEntity) async {
+    return await _repositoryBase.addEntity(noteEntity);
+  }
+
+  Future<Either<ErrorCore, SuccessCore>> updateNote(
+      NoteEntity noteEntity) async {
     return await _repositoryBase.updateEntity(noteEntity);
   }
 }

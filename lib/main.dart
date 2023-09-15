@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       title: 'NoteKeeper App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: AppColor.boxColor1, brightness: Brightness.light),
+            seedColor: AppColor.addNoteColor, brightness: Brightness.light),
         useMaterial3: true,
       ),
       routerConfig: goRoute,

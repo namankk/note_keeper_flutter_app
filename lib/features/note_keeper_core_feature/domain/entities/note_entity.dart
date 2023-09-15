@@ -5,7 +5,6 @@ import 'package:equatable/equatable.dart';
 class NoteEntity extends Equatable {
   final int? _id;
   final String _title;
-  final String _priority;
   final String _date;
   final String _description;
   Color? _color;
@@ -13,23 +12,20 @@ class NoteEntity extends Equatable {
   NoteEntity(
       {required int? id,
       required String title,
-      required String priority,
       required String date,
       required String description,
       Color? color})
       : _title = title,
         _id = id,
         _date = date,
-        _priority = priority,
         _description = description,
         _color = null;
 
   @override
-  List<Object?> get props => [_title, _description, _priority, _date, _id];
+  List<Object?> get props => [_title, _description, _date, _id];
 
   String get title => _title;
 
-  String get priority => _priority;
 
   String get description => _description;
 

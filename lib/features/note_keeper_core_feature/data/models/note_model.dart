@@ -6,7 +6,6 @@ class NoteModel extends NoteEntity {
   NoteModel(
       {super.id,
       required super.title,
-      required super.priority,
       required super.date,
       required super.description});
 
@@ -14,7 +13,6 @@ class NoteModel extends NoteEntity {
     return NoteModel(
         id: jsonMap["id"],
         title: jsonMap["title"],
-        priority: jsonMap["priority"],
         date: jsonMap["date"],
         description: jsonMap["description"]);
   }
@@ -28,17 +26,22 @@ class NoteModel extends NoteEntity {
     return NoteModel(
         id: id ?? this.id,
         title: title ?? this.title,
-        priority: priority ?? this.priority,
         date: date ?? this.date,
         description: description ?? this.description);
   }
 
   Map<String, dynamic> toJson() => {
         "title": title,
-        "priority": priority,
         "date": date,
         "description": description
       };
+
+  Map<String, dynamic> toJsonWithId() => {
+    "id": id,
+    "title": title,
+    "date": date,
+    "description": description
+  };
 
   Color get color => super.color;
 
