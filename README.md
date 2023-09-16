@@ -25,5 +25,8 @@ Welcome to the Multi-Platform Note Keeper App repository, built with Flutter! Th
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![HTC Nexus 9 Screenshot 4](https://github.com/namankk/note_keeper_flutter_app/assets/42471501/702deeb8-841c-4a7e-9811-35015fa572a4)
+![HTC Nexus 9 Screenshot 3](https://github.com/namankk/note_keeper_flutter_app/assets/42471501/a81b2950-84e7-4e0f-9a82-cf0ba3472c66)
+![HTC Nexus 9 Screenshot 2](https://github.com/namankk/note_keeper_flutter_app/assets/42471501/8c44b360-ce40-4b95-857c-2d0ec34871fe)
+![HTC Nexus 9 Screenshot 1](https://github.com/namankk/note_keeper_flutter_app/assets/42471501/e4b6076f-3a4c-431a-be50-b1779314dc4a)
 
