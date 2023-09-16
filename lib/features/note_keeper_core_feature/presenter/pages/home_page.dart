@@ -23,6 +23,7 @@ class HomePage extends StatelessWidget {
           style: TextStyle(
               color: Colors.black, fontSize: 22.0, fontWeight: FontWeight.bold),
         ),
+        centerTitle: true,
       ),
       body: const Column(
         children: [
