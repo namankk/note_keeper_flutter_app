@@ -5,7 +5,7 @@ Welcome to the Multi-Platform Note Keeper App repository, built with Flutter! Th
 
 ## PlayStore Link
 
-** Donwload The App Now** -> https://play.google.com/store/apps/details?id=com.naman_kashyap_flutter_developer.note_keeper_flutter_app&pcampaignid=web_share
+**Donwload The App Now** -> https://play.google.com/store/apps/details?id=com.naman_kashyap_flutter_developer.note_keeper_flutter_app&pcampaignid=web_share
 
 
 ## Features
