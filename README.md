@@ -36,9 +36,13 @@ Welcome to the Multi-Platform Note Keeper App repository, built with Flutter! Th
 ## Screenshots
 
 ![Hotpot 4](https://github.com/namankk/note_keeper_flutter_app/assets/42471501/5286fef2-643b-4a80-8671-0b1fa75095f7)
+
 ![Hotpot 3](https://github.com/namankk/note_keeper_flutter_app/assets/42471501/037c0a07-541a-447a-88d8-09b8b96ff79b)
+
 ![Hotpot 2](https://github.com/namankk/note_keeper_flutter_app/assets/42471501/24440bce-351c-4e32-9672-53e1347df1e5)
+
 ![Hotpot 1](https://github.com/namankk/note_keeper_flutter_app/assets/42471501/b402c98f-520b-440c-acee-f96aca659902)
+
 ![Hotpot 0](https://github.com/namankk/note_keeper_flutter_app/assets/42471501/b0d43846-7af9-48af-896b-8937b6fe54ac)
 
 
