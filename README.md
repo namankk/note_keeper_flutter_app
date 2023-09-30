@@ -32,7 +32,7 @@ This versatile, cross-platform application allows users to effortlessly create, 
 
 ## Authors
 
-- [@namankk](https://github.com/namankk)
+- [@namankk](https://www.linkedin.com/in/naman-kashyap-flutter-developer/)
 
 
 ## Screenshots
